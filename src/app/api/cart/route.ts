@@ -1,8 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { createClient } from "@/lib/supabase/server";
 
-export async function GET(req: NextRequest) {
-  const userId = req.headers.get("x-user-id");
+async function getUserId(): Promise<string | null> {
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user?.email) return null;
+    const dbUser = await prisma.user.findUnique({ where: { email: user.email }, select: { id: true } });
+    return dbUser?.id ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export async function GET() {
+  const userId = await getUserId();
   if (!userId) return NextResponse.json({ items: [] });
 
   const items = await prisma.cartItem.findMany({
@@ -16,7 +29,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const userId = req.headers.get("x-user-id");
+  const userId = await getUserId();
   if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { productId, variantId, quantity } = await req.json();
@@ -35,8 +48,24 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ item });
 }
 
+export async function PATCH(req: NextRequest) {
+  const userId = await getUserId();
+  if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const { itemId, quantity } = await req.json();
+  if (quantity < 1) {
+    await prisma.cartItem.deleteMany({ where: { id: itemId, userId } });
+    return NextResponse.json({ success: true });
+  }
+  const item = await prisma.cartItem.updateMany({
+    where: { id: itemId, userId },
+    data: { quantity },
+  });
+  return NextResponse.json({ item });
+}
+
 export async function DELETE(req: NextRequest) {
-  const userId = req.headers.get("x-user-id");
+  const userId = await getUserId();
   if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { itemId } = await req.json();

@@ -30,12 +30,17 @@ export function ProductDetail({ product }: Props) {
 
   const addToCart = async () => {
     if (!selectedVariant) return;
-    await fetch("/api/cart", {
+    const res = await fetch("/api/cart", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ productId: product.id, variantId: selectedVariant.id, quantity }),
     });
-    // TODO: show toast
+    if (res.status === 401) {
+      window.location.href = `/auth/login?next=/shop/${product.slug}`;
+      return;
+    }
+    // TODO: show success toast
+    alert("Produk berhasil ditambahkan ke keranjang!");
   };
 
   return (

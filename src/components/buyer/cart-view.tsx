@@ -4,17 +4,41 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { formatCurrency } from "@/lib/utils";
-import { Trash2, ShoppingBag } from "lucide-react";
+import { Trash2, ShoppingBag, Minus, Plus } from "lucide-react";
+
+type CartItem = {
+  id: string;
+  quantity: number;
+  product: { name: string; slug: string; images: { url: string }[] };
+  variant: { name: string; price: number; stock: number };
+};
 
 export function CartView() {
-  const [items, setItems] = useState<any[]>([]);
+  const [items, setItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [unauthorized, setUnauthorized] = useState(false);
 
-  useEffect(() => {
+  const fetchCart = () => {
     fetch("/api/cart")
-      .then((r) => r.json())
-      .then((d) => { setItems(d.items || []); setLoading(false); });
-  }, []);
+      .then((r) => {
+        if (r.status === 401) { setUnauthorized(true); setLoading(false); return null; }
+        return r.json();
+      })
+      .then((d) => {
+        if (d) { setItems(d.items || []); setLoading(false); }
+      });
+  };
+
+  useEffect(() => { fetchCart(); }, []);
+
+  const updateQty = async (itemId: string, quantity: number) => {
+    await fetch("/api/cart", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ itemId, quantity }),
+    });
+    fetchCart();
+  };
 
   const removeItem = async (itemId: string) => {
     await fetch("/api/cart", {
@@ -28,6 +52,17 @@ export function CartView() {
   const subtotal = items.reduce((sum, i) => sum + i.variant.price * i.quantity, 0);
 
   if (loading) return <div className="container mx-auto px-4 py-8 text-center text-muted-foreground">Memuat...</div>;
+
+  if (unauthorized) {
+    return (
+      <div className="container mx-auto px-4 py-16 text-center">
+        <ShoppingBag className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
+        <h2 className="text-xl font-semibold mb-2">Masuk untuk melihat keranjang</h2>
+        <p className="text-muted-foreground mb-6">Keranjang belanja tersimpan saat kamu masuk ke akun.</p>
+        <Button asChild><Link href="/auth/login?next=/cart">Masuk</Link></Button>
+      </div>
+    );
+  }
 
   if (items.length === 0) {
     return (
@@ -63,7 +98,23 @@ export function CartView() {
                 <button onClick={() => removeItem(item.id)} className="text-muted-foreground hover:text-destructive transition-colors">
                   <Trash2 className="h-4 w-4" />
                 </button>
-                <span className="text-sm">x{item.quantity}</span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => updateQty(item.id, item.quantity - 1)}
+                    className="w-7 h-7 rounded border border-border flex items-center justify-center hover:bg-muted disabled:opacity-40"
+                    disabled={item.quantity <= 1}
+                  >
+                    <Minus className="h-3 w-3" />
+                  </button>
+                  <span className="w-6 text-center text-sm font-medium">{item.quantity}</span>
+                  <button
+                    onClick={() => updateQty(item.id, item.quantity + 1)}
+                    className="w-7 h-7 rounded border border-border flex items-center justify-center hover:bg-muted disabled:opacity-40"
+                    disabled={item.quantity >= item.variant.stock}
+                  >
+                    <Plus className="h-3 w-3" />
+                  </button>
+                </div>
                 <span className="text-sm font-semibold">{formatCurrency(item.variant.price * item.quantity)}</span>
               </div>
             </div>
@@ -73,7 +124,7 @@ export function CartView() {
         <div className="p-6 border border-border rounded-xl h-fit space-y-4">
           <h3 className="font-semibold">Ringkasan</h3>
           <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Subtotal</span>
+            <span className="text-muted-foreground">Subtotal ({items.reduce((s, i) => s + i.quantity, 0)} item)</span>
             <span>{formatCurrency(subtotal)}</span>
           </div>
           <Separator />

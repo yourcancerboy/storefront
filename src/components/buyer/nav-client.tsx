@@ -59,12 +59,15 @@ export function MobileMenu() {
       </Button>
 
       {open && (
-        <div className="md:hidden absolute top-16 left-0 right-0 bg-background border-b border-border px-4 pb-4 flex flex-col gap-3 text-sm z-40">
-          <Link href="/" onClick={() => setOpen(false)} className="text-muted-foreground hover:text-foreground py-1">Beranda</Link>
-          <Link href="/shop" onClick={() => setOpen(false)} className="text-muted-foreground hover:text-foreground py-1">Toko</Link>
-          <Link href="/orders" onClick={() => setOpen(false)} className="text-muted-foreground hover:text-foreground py-1">Pesanan Saya</Link>
-          <Link href="/account" onClick={() => setOpen(false)} className="text-muted-foreground hover:text-foreground py-1">Akun</Link>
-        </div>
+        <>
+          <div className="md:hidden fixed inset-0 z-30 bg-black/20" onClick={() => setOpen(false)} />
+          <div className="md:hidden fixed top-16 left-0 right-0 bg-background border-b border-border px-4 pb-4 pt-3 flex flex-col gap-3 text-sm z-40 shadow-lg">
+            <Link href="/" onClick={() => setOpen(false)} className="text-muted-foreground hover:text-foreground py-1">Beranda</Link>
+            <Link href="/shop" onClick={() => setOpen(false)} className="text-muted-foreground hover:text-foreground py-1">Toko</Link>
+            <Link href="/orders" onClick={() => setOpen(false)} className="text-muted-foreground hover:text-foreground py-1">Pesanan Saya</Link>
+            <Link href="/account" onClick={() => setOpen(false)} className="text-muted-foreground hover:text-foreground py-1">Akun</Link>
+          </div>
+        </>
       )}
     </>
   );

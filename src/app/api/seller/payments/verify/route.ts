@@ -19,6 +19,21 @@ export async function POST(req: NextRequest) {
       where: { id: orderId },
       data: { status: "PAYMENT_VERIFIED", paymentStatus: "PAID", paidAt: new Date() },
     });
+
+    try {
+      const fullOrder = await prisma.order.findUnique({
+        where: { id: orderId },
+        include: { user: true },
+      });
+      if (fullOrder) {
+        const { sendPaymentVerifiedEmail } = await import("@/lib/email");
+        await sendPaymentVerifiedEmail({
+          orderNumber: fullOrder.orderNumber,
+          customerName: fullOrder.user.name || "",
+          customerEmail: fullOrder.user.email,
+        });
+      }
+    } catch {}
   }
 
   return NextResponse.json({ payment });
