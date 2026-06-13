@@ -46,28 +46,43 @@ export function ProductDetail({ product }: Props) {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        {/* Images */}
+        {/* Images & Video */}
         <div className="space-y-4">
-          <div className="aspect-square overflow-hidden rounded-xl bg-muted">
+          <div className="aspect-square overflow-hidden rounded-xl bg-muted relative">
             {product.images[selectedImage] ? (
-              <img
-                src={product.images[selectedImage].url}
-                alt={product.images[selectedImage].altText || product.name}
-                className="w-full h-full object-cover"
-              />
+              (product.images[selectedImage] as any).type === "VIDEO" ? (
+                <video
+                  src={product.images[selectedImage].url}
+                  controls
+                  className="w-full h-full object-cover"
+                  playsInline
+                />
+              ) : (
+                <img
+                  src={product.images[selectedImage].url}
+                  alt={product.images[selectedImage].altText || product.name}
+                  className="w-full h-full object-cover"
+                />
+              )
             ) : (
               <div className="w-full h-full flex items-center justify-center text-muted-foreground">No Image</div>
             )}
           </div>
           {product.images.length > 1 && (
-            <div className="flex gap-2 overflow-x-auto">
-              {product.images.map((img, idx) => (
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              {product.images.map((img: any, idx: number) => (
                 <button
                   key={img.id}
                   onClick={() => setSelectedImage(idx)}
-                  className={`shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors ${idx === selectedImage ? "border-foreground" : "border-border"}`}
+                  className={`shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors relative ${idx === selectedImage ? "border-foreground" : "border-border"}`}
                 >
-                  <img src={img.url} alt="" className="w-full h-full object-cover" />
+                  {img.type === "VIDEO" ? (
+                    <div className="w-full h-full bg-black flex items-center justify-center">
+                      <svg className="h-5 w-5 text-white fill-white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                  ) : (
+                    <img src={img.url} alt="" className="w-full h-full object-cover" />
+                  )}
                 </button>
               ))}
             </div>

@@ -136,13 +136,19 @@ model Product {
   @@index([categoryId])
 }
 
+enum MediaType {
+  IMAGE
+  VIDEO
+}
+
 model ProductImage {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   productId String
   url       String
   altText   String?
-  sortOrder Int      @default(0)
-  createdAt DateTime @default(now())
+  type      MediaType @default(IMAGE)
+  sortOrder Int       @default(0)
+  createdAt DateTime  @default(now())
 
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 

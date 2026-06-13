@@ -9,7 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Plus, Trash2, Upload } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
+import { ProductMediaUpload } from "./product-media-upload";
 import type { Product, ProductVariant, ProductImage } from "@prisma/client";
 
 type ProductWithRelations = Product & {
@@ -246,27 +247,37 @@ export function ProductForm({ product }: { product?: ProductWithRelations }) {
         </CardContent>
       </Card>
 
-      {/* Images placeholder */}
-      <Card>
-        <CardHeader><CardTitle className="text-base">Foto Produk</CardTitle></CardHeader>
-        <CardContent>
-          <div className="border-2 border-dashed border-border rounded-xl p-8 text-center">
-            <Upload className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
-            <p className="text-sm text-muted-foreground">Upload foto produk</p>
-            <p className="text-xs text-muted-foreground mt-1">JPG, PNG hingga 5MB</p>
-            <Button type="button" variant="outline" size="sm" className="mt-3">Pilih File</Button>
-          </div>
-          {product?.images && product.images.length > 0 && (
-            <div className="flex gap-2 mt-3 flex-wrap">
-              {product.images.map((img) => (
-                <div key={img.id} className="relative w-16 h-16 rounded-lg overflow-hidden border border-border">
-                  <img src={img.url} alt="" className="w-full h-full object-cover" />
-                </div>
-              ))}
+      {/* Images/Video */}
+      {product && (
+        <Card>
+          <CardHeader><CardTitle className="text-base">Foto & Video Produk</CardTitle></CardHeader>
+          <CardContent>
+            <ProductMediaUpload
+              productId={product.id}
+              initialMedia={product.images.map((img: any) => ({
+                id: img.id,
+                url: img.url,
+                type: img.type || "IMAGE",
+                altText: img.altText,
+                sortOrder: img.sortOrder,
+              }))}
+            />
+            <p className="text-xs text-muted-foreground mt-3">
+              Upload foto/video setelah produk pertama kali disimpan. Maksimal 7 file (gambar + video).
+            </p>
+          </CardContent>
+        </Card>
+      )}
+      {!product && (
+        <Card>
+          <CardHeader><CardTitle className="text-base">Foto & Video Produk</CardTitle></CardHeader>
+          <CardContent>
+            <div className="border-2 border-dashed border-border rounded-xl p-8 text-center text-muted-foreground text-sm">
+              <p>Simpan produk terlebih dahulu, lalu upload foto & video.</p>
             </div>
-          )}
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
 
       <div className="flex gap-3">
         <Button type="submit" disabled={loading}>
