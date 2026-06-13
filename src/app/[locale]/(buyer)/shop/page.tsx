@@ -61,22 +61,28 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     }
   })();
 
-  const [products, total, categories] = await Promise.all([
-    prisma.product.findMany({
-      where,
-      orderBy,
-      take: pageSize,
-      skip: (page - 1) * pageSize,
-      include: {
-        variants: { where: { isActive: true }, orderBy: { price: "asc" } },
-        images: { orderBy: { sortOrder: "asc" }, take: 1 },
-        category: true,
-        reviews: { select: { rating: true } },
-      },
-    }),
-    prisma.product.count({ where }),
-    prisma.category.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" } }),
-  ]);
+  let products: any[] = [];
+  let total = 0;
+  let categories: any[] = [];
+
+  try {
+    [products, total, categories] = await Promise.all([
+      prisma.product.findMany({
+        where,
+        orderBy,
+        take: pageSize,
+        skip: (page - 1) * pageSize,
+        include: {
+          variants: { where: { isActive: true }, orderBy: { price: "asc" } },
+          images: { orderBy: { sortOrder: "asc" }, take: 1 },
+          category: true,
+          reviews: { select: { rating: true } },
+        },
+      }),
+      prisma.product.count({ where }),
+      prisma.category.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" } }),
+    ]);
+  } catch {}
 
   return (
     <div className="container mx-auto px-4 py-8">
