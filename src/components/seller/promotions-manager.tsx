@@ -11,17 +11,20 @@ const TYPE_LABELS = { PERCENTAGE: "Persentase", FIXED_AMOUNT: "Nominal", FREE_SH
 
 export async function PromotionsManager() {
   const now = new Date();
-  const promotions = await prisma.promotion.findMany({
-    orderBy: { createdAt: "desc" },
-    include: { _count: { select: { orders: true } } },
-  });
+  let promotions: any[] = [];
+  try {
+    promotions = await prisma.promotion.findMany({
+      orderBy: { createdAt: "desc" },
+      include: { _count: { select: { orders: true } } },
+    });
+  } catch {}
 
   const active = promotions.filter((p) => p.isActive && p.startsAt <= now && p.endsAt >= now);
   const upcoming = promotions.filter((p) => p.startsAt > now);
   const expired = promotions.filter((p) => p.endsAt < now);
 
   const PromoCard = ({ promo }: { promo: typeof promotions[0] }) => {
-    const Icon = TYPE_ICONS[promo.type] || Tag;
+    const Icon = TYPE_ICONS[promo.type as keyof typeof TYPE_ICONS] || Tag;
     const isActive = promo.isActive && promo.startsAt <= now && promo.endsAt >= now;
     const isExpired = promo.endsAt < now;
 
@@ -35,7 +38,7 @@ export async function PromotionsManager() {
               </div>
               <div>
                 <p className="font-medium text-sm">{promo.name}</p>
-                <p className="text-xs text-muted-foreground">{TYPE_LABELS[promo.type]}</p>
+                <p className="text-xs text-muted-foreground">{TYPE_LABELS[promo.type as keyof typeof TYPE_LABELS]}</p>
               </div>
             </div>
             <Badge variant={isActive ? "success" : isExpired ? "outline" : "secondary"}>

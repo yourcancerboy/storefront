@@ -2,16 +2,19 @@ import { prisma } from "@/lib/prisma";
 import { ProductCard } from "./product-card";
 
 export async function FeaturedProducts() {
-  const products = await prisma.product.findMany({
-    where: { status: "ACTIVE", isFeatured: true },
-    include: {
-      variants: { where: { isActive: true }, orderBy: { price: "asc" }, take: 1 },
-      images: { orderBy: { sortOrder: "asc" }, take: 1 },
-      reviews: { select: { rating: true } },
-    },
-    take: 8,
-    orderBy: { createdAt: "desc" },
-  });
+  let products: any[] = [];
+  try {
+    products = await prisma.product.findMany({
+      where: { status: "ACTIVE", isFeatured: true },
+      include: {
+        variants: { where: { isActive: true }, orderBy: { price: "asc" }, take: 1 },
+        images: { orderBy: { sortOrder: "asc" }, take: 1 },
+        reviews: { select: { rating: true } },
+      },
+      take: 8,
+      orderBy: { createdAt: "desc" },
+    });
+  } catch {}
 
   if (products.length === 0) return null;
 

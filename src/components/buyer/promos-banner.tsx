@@ -2,15 +2,18 @@ import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 
 export async function PromosBanner() {
-  const promos = await prisma.promotion.findMany({
+  let promos: Awaited<ReturnType<typeof prisma.promotion.findMany>> = [];
+  try {
+    promos = await prisma.promotion.findMany({
     where: {
       isActive: true,
       startsAt: { lte: new Date() },
       endsAt: { gte: new Date() },
     },
-    take: 3,
-    orderBy: { createdAt: "desc" },
-  });
+      take: 3,
+      orderBy: { createdAt: "desc" },
+    });
+  } catch {}
 
   if (promos.length === 0) return null;
 

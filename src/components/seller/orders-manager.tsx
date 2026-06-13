@@ -21,16 +21,19 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 export async function OrdersManager() {
-  const orders = await prisma.order.findMany({
-    take: 50,
-    orderBy: { createdAt: "desc" },
-    include: {
-      user: { select: { name: true, email: true } },
-      items: { select: { quantity: true, productName: true }, take: 1 },
-      payment: { select: { status: true } },
-      shipment: { select: { status: true, trackingNumber: true } },
-    },
-  });
+  let orders: any[] = [];
+  try {
+    orders = await prisma.order.findMany({
+      take: 50,
+      orderBy: { createdAt: "desc" },
+      include: {
+        user: { select: { name: true, email: true } },
+        items: { select: { quantity: true, productName: true }, take: 1 },
+        payment: { select: { status: true } },
+        shipment: { select: { status: true, trackingNumber: true } },
+      },
+    });
+  } catch {}
 
   return (
     <div className="space-y-4">

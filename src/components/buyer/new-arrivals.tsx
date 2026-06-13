@@ -4,16 +4,19 @@ import { ProductCard } from "./product-card";
 import { Button } from "@/components/ui/button";
 
 export async function NewArrivals() {
-  const products = await prisma.product.findMany({
-    where: { status: "ACTIVE" },
-    include: {
-      variants: { where: { isActive: true }, orderBy: { price: "asc" }, take: 1 },
-      images: { orderBy: { sortOrder: "asc" }, take: 1 },
-      reviews: { select: { rating: true } },
-    },
-    take: 4,
-    orderBy: { createdAt: "desc" },
-  });
+  let products: any[] = [];
+  try {
+    products = await prisma.product.findMany({
+      where: { status: "ACTIVE" },
+      include: {
+        variants: { where: { isActive: true }, orderBy: { price: "asc" }, take: 1 },
+        images: { orderBy: { sortOrder: "asc" }, take: 1 },
+        reviews: { select: { rating: true } },
+      },
+      take: 4,
+      orderBy: { createdAt: "desc" },
+    });
+  } catch {}
 
   if (products.length === 0) return null;
 

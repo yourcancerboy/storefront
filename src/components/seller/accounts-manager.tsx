@@ -20,10 +20,13 @@ const ROLE_PERMISSIONS_SUMMARY: Record<string, string> = {
 };
 
 export async function AccountsManager() {
-  const staffAccounts = await prisma.user.findMany({
-    where: { role: { not: "BUYER" } },
-    orderBy: { createdAt: "asc" },
-  });
+  let staffAccounts: Awaited<ReturnType<typeof prisma.user.findMany>> = [];
+  try {
+    staffAccounts = await prisma.user.findMany({
+      where: { role: { not: "BUYER" } },
+      orderBy: { createdAt: "asc" },
+    });
+  } catch {}
 
   return (
     <div className="space-y-6">

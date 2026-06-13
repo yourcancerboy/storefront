@@ -11,32 +11,40 @@ export async function DashboardOverview() {
   const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
   const endOfLastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
 
-  const [
-    totalOrdersThisMonth,
-    totalOrdersLastMonth,
-    revenueThisMonth,
-    revenueLastMonth,
-    totalProducts,
-    recentOrders,
-    lowStockVariants,
-  ] = await Promise.all([
-    prisma.order.count({ where: { createdAt: { gte: startOfMonth }, status: { not: "CANCELLED" } } }),
-    prisma.order.count({ where: { createdAt: { gte: startOfLastMonth, lte: endOfLastMonth }, status: { not: "CANCELLED" } } }),
-    prisma.order.aggregate({ where: { createdAt: { gte: startOfMonth }, status: { not: "CANCELLED" } }, _sum: { total: true } }),
-    prisma.order.aggregate({ where: { createdAt: { gte: startOfLastMonth, lte: endOfLastMonth }, status: { not: "CANCELLED" } }, _sum: { total: true } }),
-    prisma.product.count({ where: { status: "ACTIVE" } }),
-    prisma.order.findMany({
-      take: 5,
-      orderBy: { createdAt: "desc" },
-      include: { user: { select: { name: true } }, items: { take: 1 } },
-    }),
-    prisma.productVariant.findMany({
-      where: { stock: { lte: 5, gt: 0 }, isActive: true },
-      include: { product: { select: { name: true } } },
-      take: 5,
-      orderBy: { stock: "asc" },
-    }),
-  ]);
+  let totalOrdersThisMonth = 0, totalOrdersLastMonth = 0, totalProducts = 0;
+  let revenueThisMonth: { _sum: { total: number | null } } = { _sum: { total: null } };
+  let revenueLastMonth: { _sum: { total: number | null } } = { _sum: { total: null } };
+  let recentOrders: any[] = [];
+  let lowStockVariants: any[] = [];
+
+  try {
+    [
+      totalOrdersThisMonth,
+      totalOrdersLastMonth,
+      revenueThisMonth,
+      revenueLastMonth,
+      totalProducts,
+      recentOrders,
+      lowStockVariants,
+    ] = await Promise.all([
+      prisma.order.count({ where: { createdAt: { gte: startOfMonth }, status: { not: "CANCELLED" } } }),
+      prisma.order.count({ where: { createdAt: { gte: startOfLastMonth, lte: endOfLastMonth }, status: { not: "CANCELLED" } } }),
+      prisma.order.aggregate({ where: { createdAt: { gte: startOfMonth }, status: { not: "CANCELLED" } }, _sum: { total: true } }),
+      prisma.order.aggregate({ where: { createdAt: { gte: startOfLastMonth, lte: endOfLastMonth }, status: { not: "CANCELLED" } }, _sum: { total: true } }),
+      prisma.product.count({ where: { status: "ACTIVE" } }),
+      prisma.order.findMany({
+        take: 5,
+        orderBy: { createdAt: "desc" },
+        include: { user: { select: { name: true } }, items: { take: 1 } },
+      }),
+      prisma.productVariant.findMany({
+        where: { stock: { lte: 5, gt: 0 }, isActive: true },
+        include: { product: { select: { name: true } } },
+        take: 5,
+        orderBy: { stock: "asc" },
+      }),
+    ]);
+  } catch {}
 
   const gmv = revenueThisMonth._sum.total || 0;
   const gmvLast = revenueLastMonth._sum.total || 0;

@@ -17,15 +17,18 @@ const SHIPMENT_STATUS: Record<string, { label: string; variant: "secondary" | "d
 };
 
 export async function ShippingManager() {
-  const shipments = await prisma.shipment.findMany({
-    take: 50,
-    orderBy: { createdAt: "desc" },
-    include: {
-      order: {
-        include: { user: { select: { name: true } } },
+  let shipments: any[] = [];
+  try {
+    shipments = await prisma.shipment.findMany({
+      take: 50,
+      orderBy: { createdAt: "desc" },
+      include: {
+        order: {
+          include: { user: { select: { name: true } } },
+        },
       },
-    },
-  });
+    });
+  } catch {}
 
   const pendingCount = shipments.filter((s) => s.status === "PENDING").length;
 

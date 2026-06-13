@@ -2,11 +2,14 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 
 export async function CategoryGrid() {
-  const categories = await prisma.category.findMany({
-    where: { isActive: true, parentId: null },
-    orderBy: { sortOrder: "asc" },
-    take: 6,
-  });
+  let categories: Awaited<ReturnType<typeof prisma.category.findMany>> = [];
+  try {
+    categories = await prisma.category.findMany({
+      where: { isActive: true, parentId: null },
+      orderBy: { sortOrder: "asc" },
+      take: 6,
+    });
+  } catch {}
 
   if (categories.length === 0) return null;
 
