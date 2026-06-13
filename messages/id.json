@@ -1,0 +1,150 @@
+{
+  "nav": {
+    "home": "Beranda",
+    "shop": "Toko",
+    "cart": "Keranjang",
+    "account": "Akun",
+    "orders": "Pesanan",
+    "search": "Cari produk...",
+    "login": "Masuk",
+    "register": "Daftar",
+    "logout": "Keluar"
+  },
+  "home": {
+    "hero": {
+      "badge": "Koleksi Terbaru",
+      "title": "Temukan Gaya\nTerbaik Anda",
+      "subtitle": "Eksplorasi koleksi fashion pilihan dengan kualitas premium dan harga terbaik.",
+      "cta": "Belanja Sekarang",
+      "ctaSecondary": "Lihat Koleksi"
+    },
+    "featured": "Produk Unggulan",
+    "newArrivals": "Terbaru",
+    "categories": "Kategori"
+  },
+  "product": {
+    "addToCart": "Tambah ke Keranjang",
+    "buyNow": "Beli Sekarang",
+    "outOfStock": "Stok Habis",
+    "selectSize": "Pilih Ukuran",
+    "selectColor": "Pilih Warna",
+    "description": "Deskripsi",
+    "details": "Detail Produk",
+    "reviews": "Ulasan",
+    "related": "Produk Serupa",
+    "weight": "Berat",
+    "dimensions": "Dimensi",
+    "sku": "SKU"
+  },
+  "cart": {
+    "title": "Keranjang Belanja",
+    "empty": "Keranjang kosong",
+    "emptyDesc": "Mulai belanja dan tambahkan produk ke keranjang Anda.",
+    "continue": "Lanjut Belanja",
+    "checkout": "Checkout",
+    "subtotal": "Subtotal",
+    "shipping": "Ongkos Kirim",
+    "discount": "Diskon",
+    "total": "Total",
+    "remove": "Hapus"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "address": "Alamat Pengiriman",
+    "addAddress": "Tambah Alamat",
+    "shipping": "Pilih Pengiriman",
+    "payment": "Metode Pembayaran",
+    "bankTransfer": "Transfer Bank",
+    "summary": "Ringkasan Pesanan",
+    "placeOrder": "Buat Pesanan",
+    "coupon": "Kode Kupon",
+    "applyCoupon": "Pakai"
+  },
+  "order": {
+    "title": "Pesanan Saya",
+    "detail": "Detail Pesanan",
+    "number": "No. Pesanan",
+    "date": "Tanggal",
+    "status": "Status",
+    "total": "Total",
+    "track": "Lacak Pesanan",
+    "invoice": "Lihat Invoice",
+    "PENDING_PAYMENT": "Menunggu Pembayaran",
+    "PAYMENT_VERIFIED": "Pembayaran Dikonfirmasi",
+    "PROCESSING": "Diproses",
+    "READY_TO_SHIP": "Siap Dikirim",
+    "SHIPPED": "Dalam Pengiriman",
+    "DELIVERED": "Terkirim",
+    "COMPLETED": "Selesai",
+    "CANCELLED": "Dibatalkan",
+    "REFUNDED": "Direfund"
+  },
+  "payment": {
+    "title": "Selesaikan Pembayaran",
+    "invoice": "Invoice",
+    "amount": "Jumlah yang Harus Dibayar",
+    "deadline": "Batas Waktu Pembayaran",
+    "bankAccount": "Rekening Tujuan",
+    "instructions": "Petunjuk Pembayaran",
+    "step1": "Transfer sejumlah tepat ke rekening di atas",
+    "step2": "Simpan bukti transfer Anda",
+    "step3": "Upload bukti transfer di bawah ini",
+    "uploadProof": "Upload Bukti Transfer",
+    "confirm": "Konfirmasi Pembayaran",
+    "pending": "Menunggu Verifikasi",
+    "verified": "Pembayaran Terverifikasi"
+  },
+  "filter": {
+    "title": "Filter",
+    "sort": "Urutkan",
+    "sortOptions": {
+      "newest": "Terbaru",
+      "oldest": "Terlama",
+      "priceAsc": "Harga: Rendah ke Tinggi",
+      "priceDesc": "Harga: Tinggi ke Rendah",
+      "popular": "Terpopuler",
+      "rating": "Rating Tertinggi"
+    },
+    "category": "Kategori",
+    "price": "Harga",
+    "size": "Ukuran",
+    "color": "Warna",
+    "inStock": "Tersedia",
+    "reset": "Reset Filter",
+    "apply": "Terapkan"
+  },
+  "review": {
+    "title": "Ulasan Pelanggan",
+    "write": "Tulis Ulasan",
+    "rating": "Rating",
+    "comment": "Komentar",
+    "submit": "Kirim Ulasan"
+  },
+  "common": {
+    "loading": "Memuat...",
+    "error": "Terjadi kesalahan",
+    "retry": "Coba Lagi",
+    "save": "Simpan",
+    "cancel": "Batal",
+    "delete": "Hapus",
+    "edit": "Edit",
+    "add": "Tambah",
+    "search": "Cari",
+    "back": "Kembali",
+    "next": "Selanjutnya",
+    "previous": "Sebelumnya",
+    "confirm": "Konfirmasi",
+    "success": "Berhasil",
+    "noData": "Tidak ada data"
+  },
+  "seller": {
+    "dashboard": "Dashboard",
+    "products": "Produk",
+    "orders": "Pesanan",
+    "shipping": "Pengiriman",
+    "promotions": "Promosi",
+    "insights": "Insight Bisnis",
+    "settings": "Pengaturan",
+    "accounts": "Akun"
+  }
+}

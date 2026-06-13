@@ -1,0 +1,150 @@
+{
+  "nav": {
+    "home": "Home",
+    "shop": "Shop",
+    "cart": "Cart",
+    "account": "Account",
+    "orders": "Orders",
+    "search": "Search products...",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout"
+  },
+  "home": {
+    "hero": {
+      "badge": "New Collection",
+      "title": "Discover Your\nBest Style",
+      "subtitle": "Explore our curated fashion collection with premium quality and the best prices.",
+      "cta": "Shop Now",
+      "ctaSecondary": "View Collection"
+    },
+    "featured": "Featured Products",
+    "newArrivals": "New Arrivals",
+    "categories": "Categories"
+  },
+  "product": {
+    "addToCart": "Add to Cart",
+    "buyNow": "Buy Now",
+    "outOfStock": "Out of Stock",
+    "selectSize": "Select Size",
+    "selectColor": "Select Color",
+    "description": "Description",
+    "details": "Product Details",
+    "reviews": "Reviews",
+    "related": "Related Products",
+    "weight": "Weight",
+    "dimensions": "Dimensions",
+    "sku": "SKU"
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": "Your cart is empty",
+    "emptyDesc": "Start shopping and add products to your cart.",
+    "continue": "Continue Shopping",
+    "checkout": "Checkout",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "discount": "Discount",
+    "total": "Total",
+    "remove": "Remove"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "address": "Shipping Address",
+    "addAddress": "Add Address",
+    "shipping": "Choose Shipping",
+    "payment": "Payment Method",
+    "bankTransfer": "Bank Transfer",
+    "summary": "Order Summary",
+    "placeOrder": "Place Order",
+    "coupon": "Coupon Code",
+    "applyCoupon": "Apply"
+  },
+  "order": {
+    "title": "My Orders",
+    "detail": "Order Detail",
+    "number": "Order No.",
+    "date": "Date",
+    "status": "Status",
+    "total": "Total",
+    "track": "Track Order",
+    "invoice": "View Invoice",
+    "PENDING_PAYMENT": "Pending Payment",
+    "PAYMENT_VERIFIED": "Payment Verified",
+    "PROCESSING": "Processing",
+    "READY_TO_SHIP": "Ready to Ship",
+    "SHIPPED": "Shipped",
+    "DELIVERED": "Delivered",
+    "COMPLETED": "Completed",
+    "CANCELLED": "Cancelled",
+    "REFUNDED": "Refunded"
+  },
+  "payment": {
+    "title": "Complete Your Payment",
+    "invoice": "Invoice",
+    "amount": "Amount Due",
+    "deadline": "Payment Deadline",
+    "bankAccount": "Bank Account",
+    "instructions": "Payment Instructions",
+    "step1": "Transfer the exact amount to the account above",
+    "step2": "Save your transfer receipt",
+    "step3": "Upload proof of transfer below",
+    "uploadProof": "Upload Transfer Proof",
+    "confirm": "Confirm Payment",
+    "pending": "Awaiting Verification",
+    "verified": "Payment Verified"
+  },
+  "filter": {
+    "title": "Filters",
+    "sort": "Sort By",
+    "sortOptions": {
+      "newest": "Newest",
+      "oldest": "Oldest",
+      "priceAsc": "Price: Low to High",
+      "priceDesc": "Price: High to Low",
+      "popular": "Most Popular",
+      "rating": "Highest Rated"
+    },
+    "category": "Category",
+    "price": "Price Range",
+    "size": "Size",
+    "color": "Color",
+    "inStock": "In Stock Only",
+    "reset": "Reset Filters",
+    "apply": "Apply"
+  },
+  "review": {
+    "title": "Customer Reviews",
+    "write": "Write a Review",
+    "rating": "Rating",
+    "comment": "Comment",
+    "submit": "Submit Review"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Try Again",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "confirm": "Confirm",
+    "success": "Success",
+    "noData": "No data found"
+  },
+  "seller": {
+    "dashboard": "Dashboard",
+    "products": "Products",
+    "orders": "Orders",
+    "shipping": "Shipping",
+    "promotions": "Promotions",
+    "insights": "Business Insights",
+    "settings": "Settings",
+    "accounts": "Accounts"
+  }
+}
